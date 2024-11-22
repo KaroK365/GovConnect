@@ -1,0 +1,63 @@
+ofcourse make a table named
+govconnect in postgres
+a user
+
+Create following tables : -
+
+
+-- Table: "user"
+CREATE TABLE "user" (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
+
+-- Table: "matter"
+CREATE TABLE "matter" (
+    id SERIAL PRIMARY KEY,
+    likes BIGINT,
+    body TEXT NOT NULL,
+    user_id BIGINT NOT NULL,
+    CONSTRAINT fk_matter_user FOREIGN KEY (user_id) REFERENCES "user" (id) ON DELETE CASCADE
+);
+
+-- Table: "comment"
+CREATE TABLE "comment" (
+    id SERIAL PRIMARY KEY,
+    text TEXT NOT NULL,
+    user_id BIGINT NOT NULL,
+    matter_id BIGINT NOT NULL,
+    CONSTRAINT fk_comment_user FOREIGN KEY (user_id) REFERENCES "user" (id) ON DELETE CASCADE,
+    CONSTRAINT fk_comment_matter FOREIGN KEY (matter_id) REFERENCES "matter" (id) ON DELETE CASCADE
+);
+
+-- Table: "reply"
+CREATE TABLE "reply" (
+    id SERIAL PRIMARY KEY,
+    text TEXT NOT NULL,
+    comment_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
+    CONSTRAINT fk_reply_comment FOREIGN KEY (comment_id) REFERENCES "comment" (id) ON DELETE CASCADE,
+    CONSTRAINT fk_reply_user FOREIGN KEY (user_id) REFERENCES "user" (id) ON DELETE CASCADE
+);
+
+After some Error fixes
+ALTER TABLE comment ADD COLUMN matter_id BIGINT NOT NULL;
+ALTER TABLE comment ADD CONSTRAINT fk_comment_matter FOREIGN KEY (matter_id) REFERENCES matter (id) ON DELETE CASCADE;
+
+run this alright
+
+
+GRANT ALL TO YOUR USER
+ALSO DONT FORGET TO CHANGE application.properties
+
+-- Replace 'daddy' with the your username
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO daddy;
+
+-- Grant permissions for sequences (needed for auto-increment columns)
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO daddy;
+
+-- Optionally grant usage and creation rights on the schema itself
+GRANT USAGE, CREATE ON SCHEMA public TO daddy;
+
+
