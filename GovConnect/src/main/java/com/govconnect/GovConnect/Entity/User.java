@@ -13,11 +13,11 @@ import java.util.List;
 @NoArgsConstructor
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
     @Column(nullable = false, unique = true)
-    private String username;  // Fixed typo in field name
+    private String username;
 
     @Column(nullable = false)
     private String password;
