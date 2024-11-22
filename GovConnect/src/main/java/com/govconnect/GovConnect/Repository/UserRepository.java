@@ -1,4 +1,7 @@
 package com.govconnect.GovConnect.Repository;
 
-public class UserRepository {
+import com.govconnect.GovConnect.Entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepository extends JpaRepository<User, Integer> {
 }
